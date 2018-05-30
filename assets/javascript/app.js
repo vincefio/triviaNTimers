@@ -39,15 +39,24 @@ let correctAnswers= 0
 let incorrectAnswers = 0
 let unanswered = 0
 
+let startInterval
+
 //console.log(questions[0])
-//setInterval(timerStart, 1000)
+timerStart()
+startInterval = setInterval(timerStart, 1000)
+//clearInterval(timerStart)
 populateQuestion()
+//setInterval(populateQuestion, 5000)
 
 function start(){
   timer = 20
 }
 
 function timerStart(){
+  if (timer == 0){
+    clearInterval(startInterval)
+    //alert('times up!')
+  }
   //console.log(timer)
   $('#timer').html(timer)
 
@@ -61,9 +70,13 @@ function populateQuestion(){
   $('#question').append(i)
   //for loop to populate possible answers
   for(let i = 0; i < questions[questionCount].answers.length; i++){
-    let j = $('<h3 class="answers">')
+    let j = $('<h3 class="answers" data-answers=' + i + '>')
     j.html(questions[questionCount].answers[i])
     $('#answers').append(j)
   }
   questionCount++
 }
+
+$('.answers').on('click', function(){
+  console.log($(this).text())
+})
