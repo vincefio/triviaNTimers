@@ -50,7 +50,9 @@ $('#start').on('click', function(){
 
 //console.log(questions[0])
 function initialStart(){
+  //console.log('question count ' + questionCount)
   $('#start').remove()
+  timer == 20
   timerStart()
   startInterval = setInterval(timerStart, 1000)
   //clearInterval(timerStart)
@@ -74,15 +76,18 @@ function listener(){
       clearInterval(startInterval)
       $('#question').html('<h2>Correct!</h2>')
       $('#answers').html('<img class="answerPics" src="'+questions[questionCount].picture+'">')
+      questionCount++
+      setTimeout(function(){initialStart()}, 3000)
     }else if($(this).text() !== questions[questionCount].correctAnswer){
       console.log('wrong answer')
       clearInterval(startInterval)
       $('#question').html('<h2>Nope!</h2>')
       $('#question').append('<h3>Correct answer is ' + questions[questionCount].correctAnswer + '</h3')
       $('#answers').html('<img class="answerPics" src="'+questions[questionCount].picture+'">')
+      questionCount++
+      setTimeout(function(){initialStart()}, 3000)
     }
   })
-
 }
 
 function timerStart(){
@@ -97,10 +102,13 @@ function timerStart(){
 }
 
 function populateQuestion(){
+  $('#answers').html('')
+  //$('#question').remove()
+  //$('#answers').remove()
   let i = $('<h2 class="question">')
   //console.log(questions[questionCount])
   i.html(questions[questionCount].q)
-  $('#question').append(i)
+  $('#question').html(i)
   //for loop to populate possible answers
   for(let i = 0; i < questions[questionCount].answers.length; i++){
     let j = $('<h3 class="answers" data-answers=' + i + '>')
