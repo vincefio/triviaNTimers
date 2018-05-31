@@ -52,7 +52,7 @@ $('#start').on('click', function(){
 function initialStart(){
   //console.log('question count ' + questionCount)
   $('#start').remove()
-  timer == 20
+  timer = 20
   timerStart()
   startInterval = setInterval(timerStart, 1000)
   //clearInterval(timerStart)
@@ -77,6 +77,7 @@ function listener(){
       $('#question').html('<h2>Correct!</h2>')
       $('#answers').html('<img class="answerPics" src="'+questions[questionCount].picture+'">')
       questionCount++
+      correctAnswers++
       setTimeout(function(){initialStart()}, 3000)
     }else if($(this).text() !== questions[questionCount].correctAnswer){
       console.log('wrong answer')
@@ -85,6 +86,7 @@ function listener(){
       $('#question').append('<h3>Correct answer is ' + questions[questionCount].correctAnswer + '</h3')
       $('#answers').html('<img class="answerPics" src="'+questions[questionCount].picture+'">')
       questionCount++
+      incorrectAnswers++
       setTimeout(function(){initialStart()}, 3000)
     }
   })
@@ -93,7 +95,14 @@ function listener(){
 function timerStart(){
   if (timer == 0){
     clearInterval(startInterval)
-    //alert('times up!')
+    console.log('out of Time')
+    clearInterval(startInterval)
+    $('#question').html('<h2>Out of Time!</h2>')
+    $('#question').append('<h3>Correct answer was ' + questions[questionCount].correctAnswer + '</h3')
+    $('#answers').html('<img class="answerPics" src="'+questions[questionCount].picture+'">')
+    questionCount++
+    unanswered++
+    setTimeout(function(){initialStart()}, 3000)
   }
   //console.log(timer)
   $('#timer').html(timer)
@@ -102,9 +111,12 @@ function timerStart(){
 }
 
 function populateQuestion(){
+  console.log(questionCount)
+  if(questionCount + 1 > questions.length){
+    alert('no more questions!')
+  }
   $('#answers').html('')
-  //$('#question').remove()
-  //$('#answers').remove()
+
   let i = $('<h2 class="question">')
   //console.log(questions[questionCount])
   i.html(questions[questionCount].q)
