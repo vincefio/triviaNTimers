@@ -8,7 +8,8 @@ let questions = [
       'Cinderella',
       'Snow White'
     ],
-    correctAnswer: 'Daisy Duck'
+    correctAnswer: 'Daisy Duck',
+    picture: './assets/images/donald.jpg'
   },
   {
     q: 'What is the name of the human Princess Ariel falls in love with?',
@@ -18,7 +19,8 @@ let questions = [
       'Prince Eric',
       'Prince John the 4th'
     ],
-    correctAnswer: 'Prince Eric'
+    correctAnswer: 'Prince Eric',
+    picture: './assets/images/ariel.jpg'
   },
   {
     q: 'In the Disney movie “Beauty and the Beast”, what is the name of Gastons bumbling sidekick?',
@@ -28,7 +30,8 @@ let questions = [
       'Stumpy',
       'LeFou'
     ],
-    correctAnswer: 'LeFou'
+    correctAnswer: 'LeFou',
+    picture: './assets/images/lefou.png'
   }
 ]
 
@@ -41,15 +44,45 @@ let unanswered = 0
 
 let startInterval
 
-//console.log(questions[0])
-timerStart()
-startInterval = setInterval(timerStart, 1000)
-//clearInterval(timerStart)
-populateQuestion()
-//setInterval(populateQuestion, 5000)
+$('#start').on('click', function(){
+  initialStart()
+})
 
-function start(){
+//console.log(questions[0])
+function initialStart(){
+  $('#start').remove()
+  timerStart()
+  startInterval = setInterval(timerStart, 1000)
+  //clearInterval(timerStart)
+  populateQuestion()
+  //setInterval(populateQuestion, 5000)
+
+  /*function start(){
   timer = 20
+  }*/
+  listener()
+  //$('#answers').html('<img class="answerPics" src="'+questions[questionCount].picture+'">')
+}
+
+function listener(){
+  $('.answers').on('click', function(){
+    //console.log($(this).text())
+    console.log(questions[questionCount].correctAnswer)
+    //check if answer is right or wrong
+    if($(this).text() == questions[questionCount].correctAnswer){
+      console.log('right answer!')
+      clearInterval(startInterval)
+      $('#question').html('<h2>Correct!</h2>')
+      $('#answers').html('<img class="answerPics" src="'+questions[questionCount].picture+'">')
+    }else if($(this).text() !== questions[questionCount].correctAnswer){
+      console.log('wrong answer')
+      clearInterval(startInterval)
+      $('#question').html('<h2>Nope!</h2>')
+      $('#question').append('<h3>Correct answer is ' + questions[questionCount].correctAnswer + '</h3')
+      $('#answers').html('<img class="answerPics" src="'+questions[questionCount].picture+'">')
+    }
+  })
+
 }
 
 function timerStart(){
@@ -74,9 +107,5 @@ function populateQuestion(){
     j.html(questions[questionCount].answers[i])
     $('#answers').append(j)
   }
-  questionCount++
+  //questionCount++
 }
-
-$('.answers').on('click', function(){
-  console.log($(this).text())
-})
