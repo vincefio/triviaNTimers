@@ -48,8 +48,19 @@ $('#start').on('click', function(){
   initialStart()
 })
 
+
+function restart(){
+  console.log('restart button  works')
+  timer = 20
+  questionCount = 0
+  correctAnswers= 0
+  incorrectAnswers = 0
+  unanswered = 0
+  initialStart()
+}
 //console.log(questions[0])
 function initialStart(){
+
   //console.log('question count ' + questionCount)
   $('#start').remove()
   timer = 20
@@ -112,14 +123,16 @@ function timerStart(){
 
 function populateQuestion(){
   console.log(questionCount)
+  $('#answers').html('')
   if(questionCount + 1 > questions.length){
-    alert('no more questions!')
+    //alert('no more questions!')
     renderFinal()
     console.log('correct ' + correctAnswers)
     console.log('incorrect ' + incorrectAnswers)
     console.log('unanswered ' + unanswered)
   }
-  $('#answers').html('')
+  else{
+
 
   let i = $('<h2 class="question">')
   //console.log(questions[questionCount])
@@ -131,10 +144,25 @@ function populateQuestion(){
     j.html(questions[questionCount].answers[i])
     $('#answers').append(j)
   }
+  //end else
+  }
   //questionCount++
 }
 
 function renderFinal(){
-  $('#timer').remove()
-  $('#question').remove()
+  $('#timer').empty()
+  $('#question').empty()
+  clearInterval(startInterval)
+  let q = $('<div>')
+  q.html('correct ' + correctAnswers)
+  $('#question').append(q)
+  let x = $('<div>')
+  x.html('incorrect ' + incorrectAnswers)
+  $('#question').append(x)
+  let z = $('<div>')
+  z.html('unanswered ' + unanswered)
+  $('#question').append(z)
+
+  let restartButton = $('<button type="button" id="restartButton" onclick="restart()">Restart</button>')
+  $('#question').append(restartButton)
 }
