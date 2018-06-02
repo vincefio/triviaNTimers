@@ -114,6 +114,10 @@ function populateQuestion(){
   console.log(questionCount)
   if(questionCount + 1 > questions.length){
     alert('no more questions!')
+    renderFinal()
+    console.log('correct ' + correctAnswers)
+    console.log('incorrect ' + incorrectAnswers)
+    console.log('unanswered ' + unanswered)
   }
   $('#answers').html('')
 
@@ -128,4 +132,9 @@ function populateQuestion(){
     $('#answers').append(j)
   }
   //questionCount++
+}
+
+function renderFinal(){
+  $('#timer').remove()
+  $('#question').remove()
 }
